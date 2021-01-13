@@ -13,6 +13,15 @@ export const getAllTeachers = async (pool: Pool): Promise<Teacher[]> => {
   return result.rows;
 };
 
+export const getTeacherById = async (
+  pool: Pool,
+  id: number
+): Promise<Teacher> => {
+  const query: string = 'SELECT * FROM teachers WHERE id = $1';
+  const result: QueryResult = await pool.query(query, [id]);
+  return result.rows[0];
+};
+
 export const getTargetMathTeachers = async (pool: Pool): Promise<Teacher[]> => {
   const query: string = `SELECT teachers.* FROM lessons
     JOIN teachers ON lessons.teacher_id = teachers.id
