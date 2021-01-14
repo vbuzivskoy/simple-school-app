@@ -1,5 +1,3 @@
-import { studentGroupId } from './const';
-
 enum sex_types {
   Male,
   Female,
@@ -26,6 +24,21 @@ export interface Teacher {
   age: number;
   sex: sex_types;
   yearsOfExperience: number;
+}
+
+interface Filter {
+  qt?: number;
+  lt?: number;
+  ge?: number;
+  le?: number;
+  ne?: number;
+}
+
+export interface TeacherFilter {
+  age: number | Filter;
+  sex: string;
+  yearsOfExperience: number | Filter;
+  canTeachSubjects: string | string[];
 }
 
 export interface Classroom {
