@@ -43,6 +43,19 @@ app.delete('/teachers/:id', (req: Request, res: Response) => {
     .catch((e) => res.status(405).json({ message: `Teacher wasn't deleted` }));
 });
 
+app.put('/teachers/:id', (req: Request, res: Response) => {
+  const teacher: Teacher = { ...req.body, id: parseInt(req.params.id) };
+  db.updateTeacher(pool, teacher)
+    .then((isTeacherUpdated) => {
+      if (isTeacherUpdated) {
+        res.status(200).json({ message: 'Teacher was updated' });
+      } else {
+        res.status(404).json({ message: 'Teacher was not found' });
+      }
+    })
+    .catch((e) => res.status(405).json({ message: `Teacher wasn't updated` }));
+});
+
 app.listen(appConfig.app.port, () => {
   console.log(`App listening on port ${appConfig.app.port}`);
 });
