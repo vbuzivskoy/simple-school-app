@@ -27,7 +27,6 @@ export const createTeacher = async (
   teacher: Teacher
 ): Promise<number> => {
   const { fullName, age, sex, yearsOfExperience } = teacher;
-  console.log('createTeacher teacher', teacher);
   const query: string =
     'INSERT INTO teachers (full_name, age, sex, years_of_experience) VALUES ($1, $2, $3, $4)  RETURNING id';
   const result: QueryResult = await pool.query(query, [
@@ -37,6 +36,15 @@ export const createTeacher = async (
     yearsOfExperience,
   ]);
   return result.rows[0].id;
+};
+
+export const deleteTeacher = async (
+  pool: Pool,
+  teacherId: number
+): Promise<boolean> => {
+  const query: string = 'DELETE FROM teachers WHERE id = $1';
+  const result: QueryResult = await pool.query(query, [teacherId]);
+  return !!result.rowCount;
 };
 
 export const getTargetMathTeachers = async (pool: Pool): Promise<Teacher[]> => {
