@@ -56,6 +56,12 @@ app.put('/teachers/:id', (req: Request, res: Response) => {
     .catch((e) => res.status(405).json({ message: `Teacher wasn't updated` }));
 });
 
+app.get('/targetmathteachers', (req: Request, res: Response) => {
+  db.getTargetMathTeachers(pool)
+    .then((teachers: models.Teacher[]) => res.status(200).json(teachers))
+    .catch((e) => res.status(500).json({ message: 'Internal Server error' }));
+});
+
 app.listen(appConfig.app.port, () => {
   console.log(`App listening on port ${appConfig.app.port}`);
 });
