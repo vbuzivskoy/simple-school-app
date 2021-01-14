@@ -22,6 +22,23 @@ export const getTeacherById = async (
   return result.rows[0];
 };
 
+export const createTeacher = async (
+  pool: Pool,
+  teacher: Teacher
+): Promise<number> => {
+  const { fullName, age, sex, yearsOfExperience } = teacher;
+  console.log('createTeacher teacher', teacher);
+  const query: string =
+    'INSERT INTO teachers (full_name, age, sex, years_of_experience) VALUES ($1, $2, $3, $4)  RETURNING id';
+  const result: QueryResult = await pool.query(query, [
+    fullName,
+    age,
+    sex,
+    yearsOfExperience,
+  ]);
+  return result.rows[0].id;
+};
+
 export const getTargetMathTeachers = async (pool: Pool): Promise<Teacher[]> => {
   const query: string = `SELECT teachers.* FROM lessons
     JOIN teachers ON lessons.teacher_id = teachers.id
